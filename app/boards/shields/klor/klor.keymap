@@ -44,15 +44,33 @@
             tapping-term-ms = <200>;
             bindings = <&mo NUMBERS>, <&tog NUMBERS>;
         };
+        slash_ret: tap_dance_1 {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TAP_DANCE_1";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp FSLH>, <&kp RET>;
+        };
 
+    };
+
+    macros {
+        scln_ret: scln_ret {
+            label = "ZM_scln_ret";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_tap &kp SEMI &kp RET>;
+        };
     };
 
      combos {
             compatible = "zmk,combos";
-            combo_esc {
+            combo_cw {
+                layers = <0> ;
                 timeout-ms = <50>;
-                key-positions = <0 1>;
-                bindings = <&kp ESC>;
+                key-positions = <11 20>;
+                bindings = <&caps_word>;
             };
     };
     
@@ -88,9 +106,9 @@ label= "BASE"                                                  ;
                                  └─────────┴─────────┴─────────┴─────────┘└─────────┴─────────┴─────────┴─────────┘ */ 
  bindings = <
  //╷         ╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷         ╷
-              &kp Q     &kp W     &kp F     &kp P     &kp G                          &kp J     &kp L     &kp U     &kp Y     &kp SEMI
-    &kp ESC   &kp A     &kp R     &kp S     &kp T     &kp D                          &kp H     &kp N     &kp E     &kp I     &kp O     &kp SQT
-&mt LSHIFT TAB &kp Z    &kp X     &kp C     &kp V     &kp B     &trans     &trans    &kp K     &kp M     &kp COMMA &kp DOT   &kp FSLH  &mt RSHFT RET
+              &kp Q     &kp W     &kp F     &kp P     &kp G                   &kp J     &kp L     &kp U     &kp Y     &kp SEMI
+    &kp TAB   &hm LSHFT A   &kp R  &kp S    &kp T     &kp D                    &kp H     &kp N     &kp E     &kp I     &hm RSHFT O     &kp SQT
+&kp ESC &kp Z    &kp X     &kp C     &kp V     &kp B     &trans     &trans    &kp K     &kp M     &kp COMMA &kp DOT   &slash_ret  &scln_ret
                             &mt LALT RET   &TT_NUMBERS   &mt LCTRL BSPC &trans   &trans  &lt NAV SPACE   &mo SYMBOLS &mt RALT RGUI    
                         >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
@@ -116,8 +134,8 @@ label= "NUMBERS"                                                 ;
  //╷         ╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷         ╷
     &kp KP_DIVIDE   &kp KP_N7 &kp KP_N8 &kp KP_N9    &kp KP_MINUS                       &kp KP_MINUS  &kp KP_N7 &kp KP_N8 &kp KP_N9 &kp KP_DIVIDE
     &kp DEL    &kp KP_MULTIPLY    &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp KP_PLUS                       &kp KP_PLUS  &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp KP_MULTIPLY &kp DEL
-    &kp SPACE   &kp KP_DOT   &kp KP_N1 &kp KP_N2 &kp KP_N3 &kp KP_EQUAL  &trans     &trans    &kp KP_EQUAL  &kp KP_N1 &kp KP_N2 &kp KP_N3 &kp KP_DOT &trans
-                                  &trans    &trans    &kp KP_N0    &trans     &trans    &kp KP_N0 &trans &trans  
+    &kp SPACE   &kp KP_DOT   &kp KP_N1 &kp KP_N2 &kp KP_N3 &kp KP_N0  &trans     &trans    &kp KP_EQUAL  &kp KP_N1 &kp KP_N2 &kp KP_N3 &kp KP_DOT &trans
+                                  &trans    &trans    &trans   &trans     &trans    &kp KP_N0 &trans &trans  
                         >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
                 };
@@ -142,7 +160,7 @@ label= "SYMBOLS"                                                 ;
  //╷         ╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷         ╷
               &kp EXCL   &kp AT   &kp HASH  &kp DLLR  &kp PRCNT                      &kp CARET &kp AMPS  &kp STAR  &kp LPAR    &kp RPAR     
     &kp DEL   &kp TILDE  &kp LBRC &kp LPRN  &kp LBKT  &kp LT                          &kp GT    &kp RBKT  &kp RPRN  &kp RBRC    &kp PIPE &kp DEL  
-    &kp SPACE &kp GRAVE  &trans    &kp UNDER  &kp MINUS  &trans    &trans   &trans    &trans    &kp PLUS  &kp EQUAL &trans    &kp BSLH    &trans
+    &kp SPACE &kp GRAVE  &trans    &kp UNDER  &kp MINUS  &trans    &trans   &trans    &trans    &kp PLUS  &kp EQUAL &kp BSLH    &kp FSLH    &kp RS(SEMI)
                                   &mo ADJUST &trans   &trans    &trans     &trans    &trans    &trans    &trans  
                         >;
                 sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
@@ -167,7 +185,7 @@ label= "NAV"                                                 ;
  //╷         ╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷         ╷
               &kp PG_UP    &kp HOME    &kp UP    &kp END    &trans                         &trans    &kp PSCRN    &trans &trans    &trans     
     &kp DEL &kp PG_DN    &kp LEFT &kp DOWN  &kp RIGHT    &trans                         &trans    &kp RSHFT  &kp RCTRL    &kp INSERT    &trans &trans  
-    &kp CAPS    &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)    &trans    &trans     &trans    &trans    &trans    &trans    &trans    &trans    &trans
+    &kp BSPC    &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)    &trans    &trans     &trans    &trans    &trans    &trans    &trans    &trans    &trans
                                   &trans &kp ENTER   &trans    &trans     &trans    &trans    &trans    &trans  
                         >;
                 sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
